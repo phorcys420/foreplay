@@ -1,0 +1,31 @@
+name: foreplay
+description: Cumcord walkthrough & tools
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  fluent_ui:
+    git: https://github.com/bdlukaa/fluent_ui.git
+  system_theme: ^2.0.0
+  window_manager: ^0.2.3
+  url_strategy: ^0.2.0
+  provider: ^6.0.2
+  web_socket_channel: ^2.2.0
+  http: ^0.13.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true

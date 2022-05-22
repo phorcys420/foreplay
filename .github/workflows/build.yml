@@ -1,0 +1,69 @@
+name: Build
+on:
+    push:
+      branches: [ main ]
+
+env:
+  FLUTTER_CHANNEL: "stable"
+
+jobs:
+    build-web:    
+        runs-on: ubuntu-latest
+
+        strategy:
+          matrix:
+            target: [ web, linux ]
+
+        steps:
+          - name: Build path
+            id: get_path
+            run: |
+              echo "Building for $matrix.target : ${{ matrix.target }}"
+              if [$matrix.target == "linux"]
+              then
+                  echo "::set-output name=path::build/linux/x64/release/bundle"
+              else
+                  echo "::set-output name=path::build/web"
+              fi
+
+          - uses: subosito/flutter-action@v2
+            with:
+              channel: "$FLUTTER_CHANNEL"
+
+          - name: Checkout code
+            uses: actions/checkout@v3
+
+          - name: Fetch dependencies
+            run: flutter pub get
+
+          - name: Build for ${{ matrix.target }}
+            run: flutter build ${{ matrix.target }}
+
+          - name: Upload ${{ matrix.target }} artifact
+            uses: actions/upload-artifact@v2
+            with:
+                name: foreplay-${{ matrix.target }}
+                path: ${{ steps.get_path.outputs.path }}
+
+    build-windows:
+        runs-on: windows-latest
+
+        steps:
+          - uses: subosito/flutter-action@v2
+            with:
+              channel: "$FLUTTER_CHANNEL"
+
+          - name: Checkout code
+            uses: actions/checkout@v3
+
+          - name: Fetch dependencies
+            run: flutter pub get
+
+          - name: Build for Windows
+            run: flutter build windows
+
+          - name: Upload Windows
+            uses: actions/upload-artifact@v2
+            with:
+                name: foreplay-windows
+                path: build/windows/runner/Release
