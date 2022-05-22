@@ -35,7 +35,7 @@ jobs:
               esac
 
           - name: Set build path for windows
-            if: matrix.target == "windows"
+            if: matrix.target == 'windows'
             run: echo "BUILD_PATH=build/windows/runner/Release" >> $env:GITHUB_ENV
 
           - uses: subosito/flutter-action@v2
