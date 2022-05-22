@@ -21,24 +21,22 @@ jobs:
         name: Build for ${{ matrix.target }}
 
         steps:
-          - name: Build path
-            id: get_path
+          - name: Set build path for UNIX-likes
+            if: matrix.target !== "windows"
             run: |
               case "${{ matrix.target }}" in
                 linux)
-                    path="build/linux/x64/release/bundle"
+                    echo "build/linux/x64/release/bundle" >> $BUILD_PATH
                     ;;
 
                 web)
-                    path="build/web"
-                    ;;
-                    
-                windows)
-                    path="build/windows/runner/Release"
+                    echo "build/web" >> $BUILD_PATH
                     ;;
               esac
 
-              echo "::set-output name=path::$path"
+          - name: Set build path for windows
+            if: matrix.target == "windows"
+            run: echo "BUILD_PATH=build/windows/runner/Release" >> $env:GITHUB_ENV
 
           - uses: subosito/flutter-action@v2
             with:
@@ -61,4 +59,4 @@ jobs:
             uses: actions/upload-artifact@v2
             with:
                 name: foreplay-${{ matrix.target }}
-                path: ${{ steps.get_path.outputs.path }}
+                path: ${{ BUILD_PATH }}
