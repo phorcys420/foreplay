@@ -24,7 +24,7 @@ jobs:
           - name: Build path
             id: get_path
             run: |
-              case "${ matrix.target }}" in
+              case "${{ matrix.target }}" in
                 linux)
                     path="build/linux/x64/release/bundle"
                     ;;
