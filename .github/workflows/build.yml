@@ -26,13 +26,15 @@ jobs:
             run: |
               case "${{ matrix.target }}" in
                 linux)
-                    echo "build/linux/x64/release/bundle" >> $BUILD_PATH
+                    path="build/linux/x64/release/bundle"
                     ;;
 
                 web)
-                    echo "build/web" >> $BUILD_PATH
+                    path="build/web"
                     ;;
               esac
+
+              echo "BUILD_PATH=$path" >> $GITHUB_ENV
 
           - name: Set build path for windows
             if: matrix.target == 'windows'
