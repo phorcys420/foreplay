@@ -19,8 +19,7 @@ jobs:
           - name: Build path
             id: get_path
             run: |
-              if ["${{ matrix.target }}" == "linux"]
-              then
+              if [[ "${{ matrix.target }}" == "linux" ]]; then
                   echo "::set-output name=path::build/linux/x64/release/bundle"
               else
                   echo "::set-output name=path::build/web"
@@ -38,7 +37,7 @@ jobs:
 
           - name: Install Linux requirements
             if: matrix.target == 'linux'
-            run: apt install clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
+            run: sudo apt install clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
 
           - name: Build for ${{ matrix.target }}
             run: flutter build ${{ matrix.target }}
