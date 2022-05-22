@@ -22,7 +22,7 @@ jobs:
 
         steps:
           - name: Set build path for UNIX-likes
-            if: matrix.target !== "windows"
+            if: matrix.target != "windows"
             run: |
               case "${{ matrix.target }}" in
                 linux)
